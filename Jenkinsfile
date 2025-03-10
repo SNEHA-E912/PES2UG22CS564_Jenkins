@@ -37,7 +37,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    git config --global user.name "SNEHA E"
+                    git config --global user.name "PES2UG22CS564"
                     git config --global user.email "snehagowdasnehagowda912@gmail.com"
                     git add program.cpp
                     git commit -m "Added new C++ file"

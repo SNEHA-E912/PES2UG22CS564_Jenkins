@@ -28,7 +28,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    sh './PES2UG22CS564'  # Fixed the binary file name
+                    sh './PES2UG22CS564'  // Removed the inline comment
                 }
             }
         }

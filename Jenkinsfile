@@ -2,25 +2,16 @@ pipeline {
     agent any
 
     stages {
-        stage('Create File') {
+        stage('Checkout') {
             steps {
-                script {
-                    sh '''
-                    echo '#include <iostream>' > program.cpp
-                    echo 'using namespace std;' >> program.cpp
-                    echo 'int main() {' >> program.cpp
-                    echo '    cout << "Hello, Jenkins!" << endl;' >> program.cpp
-                    echo '    return 0;' >> program.cpp
-                    echo '}' >> program.cpp
-                    '''
-                }
+                checkout scm
             }
         }
-
+        
         stage('Build') {
             steps {
                 script {
-                    sh 'g++ -o PES2UG22CS564 program.cpp' 
+                    sh 'g++ -o PES2UG22CS564-1 hello.cpp'
                 }
             }
         }
@@ -28,31 +19,36 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    sh './PES2UG22CS564'
+                    sh './PES2UG22CS564-1'
                 }
             }
         }
 
         stage('Deploy') {
-    steps {
-        script {
-            sh '''
-            git config --global user.name "PES2UG22CS564"
-            git config --global user.email "snehagowdasnehagowda912@gmail.com"
-            git checkout -B main --  # Ensure we are on the main branch without ambiguity
-            git add program.cpp
-            git commit -m "Added new C++ file"
-            git push origin main
-            '''
+            steps {
+                script {
+                    sh 'git config --global user.name "PES2UG22CS564"'
+                    sh 'git config --global user.email "snehagowdasnehagowda912@gmail.com"'
+                    sh 'git checkout -B main origin/main'
+                    sh 'git add -A'
+                    sh 'git commit -m "Added hello.cpp file" || echo "No changes to commit"'
+                }
+            }
         }
-    }
-}
 
+        stage('Post Actions') {
+            steps {
+                echo "Pipeline completed successfully"
+            }
+        }
     }
 
     post {
+        success {
+            echo "Build and deployment successful!"
+        }
         failure {
-            echo 'pipeline failed'
+            echo "Pipeline failed"
         }
     }
 }

@@ -28,25 +28,26 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    sh './PES2UG22CS564'  // Removed the inline comment
+                    sh './PES2UG22CS564'
                 }
             }
         }
 
         stage('Deploy') {
-    steps {
-        script {
-            sh '''
-            git config --global user.name "PES2UG22CS564"
-            git config --global user.email "snehagowdasnehagowda912@gmail.com"
-            git checkout main  # Ensure we are on the main branch
-            git add program.cpp
-            git commit -m "Added new C++ file"
-            git push origin main
-            '''
+            steps {
+                script {
+                    sh '''
+                    git config --global user.name "PES2UG22CS564"
+                    git config --global user.email "snehagowdasnehagowda912@gmail.com"
+                    git checkout main  # Ensure we are on the main branch
+                    git add program.cpp
+                    git commit -m "Added new C++ file"
+                    git push origin main
+                    '''
+                }
+            }
         }
     }
-}
 
     post {
         failure {
